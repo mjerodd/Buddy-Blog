@@ -6,10 +6,12 @@
         <center>
           <div class="search-bar">
             <input type="text" placeholder="Search" />
-            <div class="animated-search" onclick="searchbar()">
+
+            <a href="{% url 'search' %}" class="animated-search" onclick="searchbar()">
               <i class="uil uil-search"></i>
+              </a>
             </div>
-          </div>
+
           <div class="typo">
             <h1 class="title">Today's High</h1>
             <p>
@@ -79,10 +81,10 @@
                 </h3>
                 <div class="author">
                   <div class="profile-pic">
-                    <img src="{{ post.image.url }}" alt="" />
+                    <img src="{{ post.author.profile.profile_image.url }}" alt="" />
                   </div>
                   <div class="details">
-                    <p>Author name</p>
+                    <p>{{ post.author.first_name }}</p>
                     <small>{{ post.last_updated|date }}</small>
                   </div>
                 </div>
@@ -119,10 +121,10 @@
                 </h3>
                 <div class="author">
                   <div class="profile-pic">
-                    <img src="images/author.svg" alt="" />
+                    <img src="{{ post.author.profile.profile_image.url }}" alt="" />
                   </div>
                   <div class="details">
-                    <p>Author name</p>
+                    <p>{{ post.author.first_name }}</p>
                     <small>{{ post.last_updated|date }}</small>
                   </div>
                 </div>
