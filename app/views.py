@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
-
+from django.contrib.auth import login
 from app.models import Post, Comments, Profile
-from app.forms import CommentForm, SubscribeForm
+from app.forms import CommentForm, SubscribeForm, NewUserForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -26,6 +26,7 @@ def index(request):
         subscribe_form = SubscribeForm(request.POST)
         if subscribe_form.is_valid():
             subscribe_form.save()
+            request.session['subscribed'] = True
             subscribe_successful = 'Subscribed Successfully'
             subscribe_form = SubscribeForm()
 
@@ -98,3 +99,19 @@ def search_posts(request):
     posts = Post.objects.filter(title__icontains=search_query)
     context = {'posts': posts}
     return render(request, 'app/search.html', context)
+
+
+def about(request):
+    return render(request, 'app/about.html')
+
+
+def register_user(request):
+    form = NewUserForm()
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
+    context = {"form": form}
+    return render(request, 'registration/registration.html', context)

@@ -15,16 +15,19 @@
           <div class="typo">
             <h1 class="title">Today's High</h1>
             <p>
-              Lorem ipsum began as scrambled, nonsensical Latin derived from
-              Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
+              What are you smoking on today? Share pics of your packs with the rest of the smoking community.
+              Write reviews of your pack/strain, and comment on others packs.  And remember, we're bud smokers,
+              so we keep it polite.
             </p>
           </div>
           <div class="newsletter">
+            {% if request.session.subscribed == None %}
             <form method="POST">
               {% csrf_token %}
               {{ subscribe_form }}
               <button class="btn btn-primary">Subscribe</button>
             </form>
+            {% endif %}
             {% if subscribe_successful %}
             <br><p>Subscribed Successfully</p>
             {% endif %}
