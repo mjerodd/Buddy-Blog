@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -115,3 +116,12 @@ def register_user(request):
             return redirect('/')
     context = {"form": form}
     return render(request, 'registration/registration.html', context)
+
+
+def all_posts(request):
+    posts = Post.objects.all()
+    paginator = Paginator(posts, 10)
+    page = request.GET.get('page')
+    posts  = paginator.get_page(page)
+    context = {"posts": posts}
+    return render(request, 'app/all_posts.html', context)
